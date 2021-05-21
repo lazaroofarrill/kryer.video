@@ -18,10 +18,13 @@ import views.Playlist
 fun main() = Window {
     val modifier = Modifier
     modifier.background(Color.Black)
-    val videoURl = remember { mutableStateOf("/home/lazaroofarrill/Videos/Big_Buck_Bunny_first_23_seconds_1080p.ogv") }
+    val videoURl =
+        remember { mutableStateOf("/home/lazaroofarrill/Videos/El crash del 83 _ La Leyenda del Videojuego [Episodio 4]-G39At1Ojx-E.webm") }
+    val videoPosition = remember { mutableStateOf(0f) }
+
 
     val showPlaylist: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val mediaPlayerComponent = remember { mutableStateOf(KryerMediaPlayerComponent()) }
+    val mediaPlayerComponent = remember { mutableStateOf(KryerMediaPlayerComponent(videoPosition)) }
     val readyToPlay = remember { mutableStateOf(false) }
 
     MaterialTheme {
@@ -38,7 +41,7 @@ fun main() = Window {
                 }
             }
             if (readyToPlay.value) {
-                ControlBar(modifier, showPlaylist, mediaPlayerComponent, url = videoURl)
+                ControlBar(modifier, showPlaylist, mediaPlayerComponent, url = videoURl, videoPosition)
             }
         }
     }

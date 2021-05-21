@@ -14,8 +14,6 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,9 +26,9 @@ fun ControlBar(
     modifier: Modifier,
     showPlaylist: MutableState<Boolean>,
     mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>,
-    url: MutableState<String>
+    url: MutableState<String>,
+    videoPosition: MutableState<Float>
 ) {
-    val videoPosition = remember { mutableStateOf(0f) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth()
@@ -89,5 +87,7 @@ fun ControlBar(
 }
 
 fun Long.millisToTIme(): String {
-    return "${this / 1000}:${this % 1000}"
+    val minutes = this / 60000
+    val seconds = this % 60000 / 1000
+    return "${minutes}:${seconds}"
 }
