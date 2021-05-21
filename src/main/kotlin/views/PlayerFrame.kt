@@ -15,7 +15,7 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent
 @Composable
 fun PlayerFrame(
     modifier: Modifier,
-    //used to be mediaPlayerComponent: EmbeddedMediaPlayerComponent
+//    mediaPlayerComponent: EmbeddedMediaPlayerComponent, this was the failing implementation
     mediaPlayerComponent: MutableState<EmbeddedMediaPlayerComponent>,
     readyToPlay: MutableState<Boolean>
 ) {
@@ -26,7 +26,8 @@ fun PlayerFrame(
 
     return SwingPanel(
         background = Color.Green,
-        modifier = modifier.fillMaxSize().padding(1.dp),
+        modifier = modifier.fillMaxSize()
+            .padding(0.dp), //I have no idea why I need to set padding for the video to autoresize
         factory = {
             mediaPlayerComponent.value
         }
