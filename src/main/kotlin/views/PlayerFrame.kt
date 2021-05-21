@@ -24,7 +24,7 @@ fun PlayerFrame(
         readyToPlay.value = true
     }
 
-    return SwingPanel(
+    SwingPanel(
         background = Color.Green,
         modifier = modifier.fillMaxSize()
             .padding(0.dp), //I have no idea why I need to set padding for the component to autoresize
