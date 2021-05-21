@@ -58,14 +58,19 @@ fun ControlBar(
             }
         }
         Spacer(modifier.padding(8.dp))
+
         Slider(
-            value = videoPosition.value, onValueChange = { videoPosition.value = it },
+            value = videoPosition.value,
+            onValueChange = {
+                videoPosition.value = it
+                mediaPlayerComponent.value.mediaPlayer().controls().setPosition(it)
+            },
             colors = SliderDefaults.colors(
                 thumbColor = Color.White, activeTrackColor = Color.White, inactiveTrackColor = Color.Gray
             ),
-            modifier = modifier.weight(1f)
+            modifier = modifier.weight(1f),
         )
-        Text("1:00/1:00:33", color = Color.White)
+        Text("1:00/${mediaPlayerComponent.value.mediaPlayer().status().length().millisToTIme()}", color = Color.White)
         OutlinedButton(
             onClick = { showPlaylist.value = !showPlaylist.value },
             modifier = modifier.background(Color.Transparent),
@@ -83,3 +88,6 @@ fun ControlBar(
     }
 }
 
+fun Long.millisToTIme(): String {
+    return "${this / 1000}:${this % 1000}"
+}
