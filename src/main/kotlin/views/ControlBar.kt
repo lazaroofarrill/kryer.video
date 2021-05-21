@@ -1,5 +1,6 @@
 package views
 
+import KryerMediaPlayerComponent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,13 +22,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent
 
 @Composable
 fun ControlBar(
     modifier: Modifier,
     showPlaylist: MutableState<Boolean>,
-    mediaPlayerComponent: MutableState<EmbeddedMediaPlayerComponent>,
+    mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>,
     url: MutableState<String>
 ) {
     val videoPosition = remember { mutableStateOf(0f) }

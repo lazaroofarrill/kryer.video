@@ -10,7 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent
 import views.ControlBar
 import views.PlayerFrame
 import views.Playlist
@@ -22,7 +21,7 @@ fun main() = Window {
     val videoURl = remember { mutableStateOf("/home/lazaroofarrill/Videos/Big_Buck_Bunny_first_23_seconds_1080p.ogv") }
 
     val showPlaylist: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val mediaPlayerComponent = remember { mutableStateOf(EmbeddedMediaPlayerComponent()) }
+    val mediaPlayerComponent = remember { mutableStateOf(KryerMediaPlayerComponent()) }
     val readyToPlay = remember { mutableStateOf(false) }
 
     MaterialTheme {

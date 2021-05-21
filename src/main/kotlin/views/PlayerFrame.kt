@@ -1,5 +1,6 @@
 package views
 
+import KryerMediaPlayerComponent
 import androidx.compose.desktop.SwingPanel
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,7 +17,7 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent
 fun PlayerFrame(
     modifier: Modifier,
 //    mediaPlayerComponent: EmbeddedMediaPlayerComponent, //passing a regular variable loses video on rerender
-    mediaPlayerComponent: MutableState<EmbeddedMediaPlayerComponent>, //this works just fine
+    mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>, //this works just fine
     readyToPlay: MutableState<Boolean>
 ) {
     NativeDiscovery().discover()
