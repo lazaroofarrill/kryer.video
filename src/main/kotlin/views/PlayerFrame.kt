@@ -15,6 +15,7 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent
 @Composable
 fun PlayerFrame(
     modifier: Modifier,
+    //used to be mediaPlayerComponent: EmbeddedMediaPlayerComponent
     mediaPlayerComponent: MutableState<EmbeddedMediaPlayerComponent>,
     readyToPlay: MutableState<Boolean>
 ) {
