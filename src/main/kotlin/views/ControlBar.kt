@@ -68,7 +68,11 @@ fun ControlBar(
             ),
             modifier = modifier.weight(1f),
         )
-        Text("1:00/${mediaPlayerComponent.value.mediaPlayer().status().length().millisToTIme()}", color = Color.White)
+        Text(
+            "${mediaPlayerComponent.value.mediaPlayer().status().time().millisToTime()}/${
+                mediaPlayerComponent.value.mediaPlayer().status().length().millisToTime()
+            }", color = Color.White
+        )
         OutlinedButton(
             onClick = { showPlaylist.value = !showPlaylist.value },
             modifier = modifier.background(Color.Transparent),
@@ -86,7 +90,7 @@ fun ControlBar(
     }
 }
 
-fun Long.millisToTIme(): String {
+fun Long.millisToTime(): String {
     val minutes = this / 60000
     val seconds = this % 60000 / 1000
     return "${minutes}:${seconds}"
