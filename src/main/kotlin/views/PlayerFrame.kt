@@ -15,8 +15,8 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent
 @Composable
 fun PlayerFrame(
     modifier: Modifier,
-    //used to be mediaPlayerComponent: EmbeddedMediaPlayerComponent
-    mediaPlayerComponent: MutableState<EmbeddedMediaPlayerComponent>,
+//    mediaPlayerComponent: EmbeddedMediaPlayerComponent, //passing a regular variable loses video on rerender
+    mediaPlayerComponent: MutableState<EmbeddedMediaPlayerComponent>, //this works just fine
     readyToPlay: MutableState<Boolean>
 ) {
     NativeDiscovery().discover()
@@ -26,7 +26,8 @@ fun PlayerFrame(
 
     return SwingPanel(
         background = Color.Green,
-        modifier = modifier.fillMaxSize().padding(1.dp),
+        modifier = modifier.fillMaxSize()
+            .padding(0.dp), //I have no idea why I need to set padding for the component to autoresize
         factory = {
             mediaPlayerComponent.value
         }
