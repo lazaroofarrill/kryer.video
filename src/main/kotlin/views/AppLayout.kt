@@ -73,7 +73,7 @@ fun AppLayout(args: Array<String>) {
         Column(
             modifier = modifier.fillMaxSize().defaultMinSize(600.dp, 480.dp)
         ) {
-            Row(modifier.weight(1f).fillMaxWidth()) {
+            Row(modifier.weight(1f).fillMaxWidth().background(Color.Green)) {
                 PlayerFrame(
                     modifier
                         .weight(1f)
@@ -84,7 +84,7 @@ fun AppLayout(args: Array<String>) {
                     Playlist(modifier)
                 }
             }
-            if (readyToPlay.value && showControlBar.value) {
+            if (showControlBar.value && readyToPlay.value) {
                 ControlBar(
                     modifier,
                     showPlaylist,
