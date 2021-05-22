@@ -8,12 +8,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import java.awt.event.MouseEvent
 
 @ExperimentalFoundationApi
 @Composable
@@ -23,9 +26,13 @@ fun ControlBar(
     mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>,
     url: MutableState<String>,
     videoPosition: MutableState<Float>,
-    playing: MutableState<Boolean>
+    playing: MutableState<Boolean>,
+    playToggleAction: () -> Unit = {},
 ) {
+    var lastEvent = remember { mutableStateOf<MouseEvent?>(null) }
+
     Row(
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth()
             .background(color = Color.DarkGray)
@@ -33,17 +40,7 @@ fun ControlBar(
     ) {
         val controlButtons = mapOf<ImageVector, () -> Unit>(
             Pair(Icons.Filled.KeyboardArrowLeft, {}),
-            Pair(if (!playing.value) Icons.Filled.PlayArrow else Icons.Filled.Close, {
-                if (!playing.value) {
-                    if (mediaPlayerComponent.value.mediaPlayer().media().isValid) {
-                        mediaPlayerComponent.value.mediaPlayer().controls().play()
-                    } else {
-                        mediaPlayerComponent.value.mediaPlayer().media().play(url.value)
-                    }
-                } else {
-                    mediaPlayerComponent.value.mediaPlayer().controls().pause()
-                }
-            }),
+            Pair(if (!playing.value) Icons.Filled.PlayArrow else Icons.Filled.Close, playToggleAction),
             Pair(Icons.Filled.Search, {
                 mediaPlayerComponent.value.mediaPlayer().controls().stop()
             }),
@@ -52,6 +49,7 @@ fun ControlBar(
 
         for (button in controlButtons) {
             OutlinedButton(
+                modifier = modifier,
                 onClick = button.value,
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent,

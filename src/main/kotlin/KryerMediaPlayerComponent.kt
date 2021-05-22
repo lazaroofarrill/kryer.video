@@ -2,13 +2,16 @@ import androidx.compose.desktop.AppWindow
 import androidx.compose.runtime.MutableState
 import uk.co.caprica.vlcj.player.base.MediaPlayer
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent
+import java.awt.event.KeyEvent
 import java.awt.event.MouseEvent
 
 class KryerMediaPlayerComponent(
     private val position: MutableState<Float>,
     private val playing: MutableState<Boolean>,
     private val setFullScreen: MutableState<Boolean>,
-    private val parentWindow: AppWindow
+    private val parentWindow: AppWindow,
+    private val videoURl: MutableState<String>,
+    var playToggleAction: () -> Unit = {},
 ) : EmbeddedMediaPlayerComponent() {
 
     var lastX = 0
@@ -59,5 +62,16 @@ class KryerMediaPlayerComponent(
         val x = parentWindow.x
         val y = parentWindow.y
         parentWindow.setLocation(x - lastX + e.x, y - lastY + e.y)
+    }
+
+    override fun mouseMoved(e: MouseEvent?) {
+        super.mouseMoved(e)
+    }
+
+    override fun keyPressed(e: KeyEvent?) {
+        super.keyPressed(e)
+        if (e?.keyCode == 32) {
+            playToggleAction()
+        }
     }
 }

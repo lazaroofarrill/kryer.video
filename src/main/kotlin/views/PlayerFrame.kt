@@ -10,6 +10,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.shortcuts
 import androidx.compose.ui.unit.dp
 import uk.co.caprica.vlcj.factory.discovery.NativeDiscovery
 
