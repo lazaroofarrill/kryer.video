@@ -14,7 +14,6 @@ class KryerMediaPlayerComponent(
     var lastX = 0
     var lastY = 0
 
-
     override fun playing(mediaPlayer: MediaPlayer?) {
         super.playing(mediaPlayer)
         playing.value = true

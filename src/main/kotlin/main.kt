@@ -17,7 +17,7 @@ import views.Playlist
 fun main(args: Array<String>) = Window {
 
     val window = LocalAppWindow.current
-    val setFullScreen = remember { mutableStateOf(true) }
+    val setFullScreen = remember { mutableStateOf(false) }
     if (setFullScreen.value) {
         window.makeFullscreen()
     } else {
