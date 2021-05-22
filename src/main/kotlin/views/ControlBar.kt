@@ -28,6 +28,8 @@ fun ControlBar(
     videoPosition: MutableState<Float>,
     playing: MutableState<Boolean>,
     playToggleAction: () -> Unit = {},
+    seekForwardAction: () -> Unit,
+    seekBackWardAction: () -> Unit,
 ) {
     var lastEvent = remember { mutableStateOf<MouseEvent?>(null) }
 
@@ -39,12 +41,12 @@ fun ControlBar(
             .border(BorderStroke(1.dp, Color.Transparent))
     ) {
         val controlButtons = mapOf<ImageVector, () -> Unit>(
-            Pair(Icons.Filled.KeyboardArrowLeft, {}),
+            Pair(Icons.Filled.KeyboardArrowLeft, seekBackWardAction),
             Pair(if (!playing.value) Icons.Filled.PlayArrow else Icons.Filled.Close, playToggleAction),
             Pair(Icons.Filled.Search, {
                 mediaPlayerComponent.value.mediaPlayer().controls().stop()
             }),
-            Pair(Icons.Filled.KeyboardArrowRight, {})
+            Pair(Icons.Filled.KeyboardArrowRight, seekForwardAction)
         )
 
         for (button in controlButtons) {

@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.unit.dp
+import controls.seekBackward
+import controls.seekForward
 import controls.togglePlay
 import java.awt.Dimension
 
@@ -63,6 +65,8 @@ fun AppLayout(args: Array<String>) {
             )
         }
     mediaPlayerComponent.value.playToggleAction = { togglePlay(mediaPlayerComponent.value, playing, videoURl) }
+    mediaPlayerComponent.value.seekForwardAcion = { seekForward(mediaPlayerComponent.value, playing) }
+    mediaPlayerComponent.value.seekBackWardAction = { seekBackward(mediaPlayerComponent.value, playing) }
     val readyToPlay = remember { mutableStateOf(false) }
 
     MaterialTheme {
@@ -94,6 +98,12 @@ fun AppLayout(args: Array<String>) {
                             playing,
                             videoURl
                         )
+                    },
+                    seekForwardAction = {
+                        seekForward(mediaPlayerComponent = mediaPlayerComponent.value, playing)
+                    },
+                    seekBackWardAction = {
+                        seekBackward(mediaPlayerComponent = mediaPlayerComponent.value, playing)
                     }
                 )
             }

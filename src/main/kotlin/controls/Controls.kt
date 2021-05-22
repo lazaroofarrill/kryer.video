@@ -4,6 +4,9 @@ import KryerMediaPlayerComponent
 import androidx.compose.runtime.MutableState
 import kotlinx.coroutines.delay
 
+const val MillisToSecond = 1000
+const val ShortSeekInterval = 5 * MillisToSecond
+
 
 suspend fun hideControlBar(toggle: MutableState<Boolean>) {
     delay(500)
@@ -29,5 +32,19 @@ fun togglePlay(
         } else {
             mediaPlayerComponent.mediaPlayer().controls().play()
         }
+    }
+}
+
+fun seekForward(mediaPlayerComponent: KryerMediaPlayerComponent, playing: MutableState<Boolean>) {
+    if (playing.value) {
+        val currentTime = mediaPlayerComponent.mediaPlayer().status().time()
+        mediaPlayerComponent.mediaPlayer().controls().setTime(currentTime + ShortSeekInterval)
+    }
+}
+
+fun seekBackward(mediaPlayerComponent: KryerMediaPlayerComponent, playing: MutableState<Boolean>) {
+    if (playing.value) {
+        val currentTime = mediaPlayerComponent.mediaPlayer().status().time()
+        mediaPlayerComponent.mediaPlayer().controls().setTime(currentTime - ShortSeekInterval)
     }
 }

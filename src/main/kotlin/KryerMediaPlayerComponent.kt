@@ -11,11 +11,14 @@ class KryerMediaPlayerComponent(
     private val setFullScreen: MutableState<Boolean>,
     private val parentWindow: AppWindow,
     private val videoURl: MutableState<String>,
-    var playToggleAction: () -> Unit = {},
 ) : EmbeddedMediaPlayerComponent() {
 
     var lastX = 0
     var lastY = 0
+    var playToggleAction = {}
+    var seekForwardAcion = {}
+    var seekBackWardAction = {}
+
 
     override fun playing(mediaPlayer: MediaPlayer?) {
         super.playing(mediaPlayer)
@@ -70,8 +73,14 @@ class KryerMediaPlayerComponent(
 
     override fun keyPressed(e: KeyEvent?) {
         super.keyPressed(e)
-        if (e?.keyCode == 32) {
-            playToggleAction()
+        if (e == null) {
+            return
+        }
+        println(e.keyCode)
+        when (e.keyCode) {
+            32 -> playToggleAction()
+            39 -> seekForwardAcion()
+            37 -> seekBackWardAction()
         }
     }
 }
