@@ -22,9 +22,10 @@ fun main() = Window {
         remember { mutableStateOf("/home/lazaroofarrill/Videos/El crash del 83 _ La Leyenda del Videojuego [Episodio 4]-G39At1Ojx-E.webm") }
     val videoPosition = remember { mutableStateOf(0f) }
 
+    val playing = remember { mutableStateOf(false) }
 
     val showPlaylist: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val mediaPlayerComponent = remember { mutableStateOf(KryerMediaPlayerComponent(videoPosition)) }
+    val mediaPlayerComponent = remember { mutableStateOf(KryerMediaPlayerComponent(videoPosition, playing = playing)) }
     val readyToPlay = remember { mutableStateOf(false) }
 
     MaterialTheme {
@@ -41,7 +42,14 @@ fun main() = Window {
                 }
             }
             if (readyToPlay.value) {
-                ControlBar(modifier, showPlaylist, mediaPlayerComponent, url = videoURl, videoPosition)
+                ControlBar(
+                    modifier,
+                    showPlaylist,
+                    mediaPlayerComponent,
+                    url = videoURl,
+                    videoPosition,
+                    playing = playing
+                )
             }
         }
     }

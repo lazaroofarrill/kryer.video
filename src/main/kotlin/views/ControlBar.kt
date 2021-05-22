@@ -8,10 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -27,7 +24,8 @@ fun ControlBar(
     showPlaylist: MutableState<Boolean>,
     mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>,
     url: MutableState<String>,
-    videoPosition: MutableState<Float>
+    videoPosition: MutableState<Float>,
+    playing: MutableState<Boolean>
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -36,12 +34,19 @@ fun ControlBar(
             .border(BorderStroke(1.dp, Color.Transparent))
     ) {
         val controlButtons = mapOf<ImageVector, () -> Unit>(
-            Pair(Icons.Filled.KeyboardArrowLeft, { }),
-            Pair(Icons.Filled.PlayArrow, {
-                mediaPlayerComponent.value.mediaPlayer().media().play(url.value)
-                mediaPlayerComponent.value.mediaPlayer().fullScreen().set(true)
+            Pair(Icons.Filled.KeyboardArrowLeft, {}),
+            Pair(if (!playing.value) Icons.Filled.PlayArrow else Icons.Filled.Close, {
+                if (!playing.value) {
+                    if (mediaPlayerComponent.value.mediaPlayer().media().isValid) {
+                        mediaPlayerComponent.value.mediaPlayer().controls().play()
+                    } else {
+                        mediaPlayerComponent.value.mediaPlayer().media().play(url.value)
+                    }
+                } else {
+                    mediaPlayerComponent.value.mediaPlayer().controls().pause()
+                }
             }),
-            Pair(Icons.Filled.KeyboardArrowRight, { })
+            Pair(Icons.Filled.KeyboardArrowRight, {})
         )
 
         for (button in controlButtons) {
@@ -91,7 +96,20 @@ fun ControlBar(
 }
 
 fun Long.millisToTime(): String {
-    val minutes = this / 60000
-    val seconds = this % 60000 / 1000
-    return "${minutes}:${seconds}"
+    val hours = this / 3_600_000
+    val minutes = this / 60_000
+    val seconds = this % 60_000 / 1000
+
+    var time = if (hours > 0) "${hours.toString().pad()}:" else ""
+    time += "${minutes.toString().pad()}:"
+    time += seconds.toString().pad()
+    return time
+}
+
+fun String.pad(char: Char = '0', digits: Int = 2): String {
+    var padding = this
+    while (padding.length < digits) {
+        padding = char + padding
+    }
+    return padding
 }
