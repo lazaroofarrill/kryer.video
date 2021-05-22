@@ -17,6 +17,11 @@ class KryerMediaPlayerComponent(
         playing.value = false
     }
 
+    override fun stopped(mediaPlayer: MediaPlayer?) {
+        super.stopped(mediaPlayer)
+        paused(mediaPlayer)
+    }
+
     override fun positionChanged(mediaPlayer: MediaPlayer?, newPosition: Float) {
         super.positionChanged(mediaPlayer, newPosition)
         position.value = newPosition

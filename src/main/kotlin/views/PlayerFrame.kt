@@ -2,6 +2,7 @@ package views
 
 import KryerMediaPlayerComponent
 import androidx.compose.desktop.SwingPanel
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -12,10 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import uk.co.caprica.vlcj.factory.discovery.NativeDiscovery
 
+@ExperimentalFoundationApi
 @Composable
 fun PlayerFrame(
     modifier: Modifier,
-//    mediaPlayerComponent: EmbeddedMediaPlayerComponent, //passing a regular variable loses video on rerender
+//    mediaPlayerComponent: EmbeddedMediaPlayerComponent, //passing a regular variable loses video on re-render
     mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>, //this works just fine
     readyToPlay: MutableState<Boolean>
 ) {
@@ -26,7 +28,8 @@ fun PlayerFrame(
 
     SwingPanel(
         background = Color.Green,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .padding(0.dp), //I have no idea why I need to set padding for the component to autoresize
         factory = {
             mediaPlayerComponent.value

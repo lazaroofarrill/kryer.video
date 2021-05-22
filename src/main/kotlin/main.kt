@@ -1,9 +1,7 @@
 import androidx.compose.desktop.Window
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -14,28 +12,36 @@ import views.ControlBar
 import views.PlayerFrame
 import views.Playlist
 
+@ExperimentalFoundationApi
+fun main(args: Array<String>) = Window {
+    println("printing args")
 
-fun main() = Window {
+    var videoFile = ""
+    if (args.isNotEmpty()) {
+        videoFile = args[0]
+    }
     val modifier = Modifier
     modifier.background(Color.Black)
+
     val videoURl =
-        remember { mutableStateOf("/home/lazaroofarrill/Videos/El crash del 83 _ La Leyenda del Videojuego [Episodio 4]-G39At1Ojx-E.webm") }
+        remember { mutableStateOf(videoFile) }
     val videoPosition = remember { mutableStateOf(0f) }
 
     val playing = remember { mutableStateOf(false) }
 
     val showPlaylist: MutableState<Boolean> = remember { mutableStateOf(false) }
-    val mediaPlayerComponent = remember { mutableStateOf(KryerMediaPlayerComponent(videoPosition, playing = playing)) }
+    val mediaPlayerComponent =
+        remember { mutableStateOf(KryerMediaPlayerComponent(videoPosition, playing)) }
     val readyToPlay = remember { mutableStateOf(false) }
 
     MaterialTheme {
-        Column(modifier = modifier.fillMaxHeight().fillMaxWidth()) {
+        Column(modifier = modifier.fillMaxSize()) {
             Row(modifier.weight(1f).fillMaxWidth()) {
                 PlayerFrame(
-                    modifier = modifier
+                    modifier
                         .weight(1f)
                         .fillMaxHeight(),
-                    mediaPlayerComponent = mediaPlayerComponent, readyToPlay = readyToPlay
+                    mediaPlayerComponent, readyToPlay
                 )
                 if (showPlaylist.value) {
                     Playlist(modifier)

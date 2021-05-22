@@ -1,10 +1,7 @@
 package views
 
 import KryerMediaPlayerComponent
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -18,6 +15,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
+@ExperimentalFoundationApi
 @Composable
 fun ControlBar(
     modifier: Modifier,
@@ -46,6 +44,9 @@ fun ControlBar(
                     mediaPlayerComponent.value.mediaPlayer().controls().pause()
                 }
             }),
+            Pair(Icons.Filled.Search, {
+                mediaPlayerComponent.value.mediaPlayer().controls().stop()
+            }),
             Pair(Icons.Filled.KeyboardArrowRight, {})
         )
 
@@ -72,11 +73,14 @@ fun ControlBar(
                 thumbColor = Color.White, activeTrackColor = Color.White, inactiveTrackColor = Color.Gray
             ),
             modifier = modifier.weight(1f),
+            enabled = mediaPlayerComponent.value.mediaPlayer().media().isValid
         )
         Text(
             "${mediaPlayerComponent.value.mediaPlayer().status().time().millisToTime()}/${
                 mediaPlayerComponent.value.mediaPlayer().status().length().millisToTime()
-            }", color = Color.White
+            }", color = Color.White, modifier = modifier.combinedClickable(onClick = {}, onDoubleClick = {
+                println("double clicked")
+            })
         )
         OutlinedButton(
             onClick = { showPlaylist.value = !showPlaylist.value },
