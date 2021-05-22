@@ -19,7 +19,8 @@ fun PlayerFrame(
     modifier: Modifier,
 //    mediaPlayerComponent: EmbeddedMediaPlayerComponent, //passing a regular variable loses video on re-render
     mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>, //this works just fine
-    readyToPlay: MutableState<Boolean>
+    readyToPlay: MutableState<Boolean>,
+    setFullScreen: MutableState<Boolean>
 ) {
     NativeDiscovery().discover()
     SideEffect {

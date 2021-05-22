@@ -1,5 +1,7 @@
 package views
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.Surface
@@ -9,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+@ExperimentalFoundationApi
 @Composable
 fun Playlist(modifier: Modifier) {
     Surface(
@@ -17,6 +20,8 @@ fun Playlist(modifier: Modifier) {
             .defaultMinSize(minWidth = 400.dp)
             .fillMaxHeight()
     ) {
-        Text("Here goes the playlist")
+        Column(modifier) {
+            Text("here goes the playlist")
+        }
     }
 }

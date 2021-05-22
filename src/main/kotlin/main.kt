@@ -1,3 +1,4 @@
+import androidx.compose.desktop.LocalAppWindow
 import androidx.compose.desktop.Window
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -14,7 +15,14 @@ import views.Playlist
 
 @ExperimentalFoundationApi
 fun main(args: Array<String>) = Window {
-    println("printing args")
+
+    val window = LocalAppWindow.current
+    val setFullScreen = remember { mutableStateOf(true) }
+    if (setFullScreen.value) {
+        window.makeFullscreen()
+    } else {
+        window.restore()
+    }
 
     var videoFile = "/home/lazaroofarrill/Videos/Big_Buck_Bunny_first_23_seconds_1080p.ogv"
     if (args.isNotEmpty()) {
@@ -31,17 +39,19 @@ fun main(args: Array<String>) = Window {
 
     val showPlaylist: MutableState<Boolean> = remember { mutableStateOf(false) }
     val mediaPlayerComponent =
-        remember { mutableStateOf(KryerMediaPlayerComponent(videoPosition, playing)) }
+        remember { mutableStateOf(KryerMediaPlayerComponent(videoPosition, playing, setFullScreen, window)) }
     val readyToPlay = remember { mutableStateOf(false) }
 
     MaterialTheme {
-        Column(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = modifier.fillMaxSize()
+        ) {
             Row(modifier.weight(1f).fillMaxWidth()) {
                 PlayerFrame(
                     modifier
                         .weight(1f)
                         .fillMaxHeight(),
-                    mediaPlayerComponent, readyToPlay
+                    mediaPlayerComponent, readyToPlay, setFullScreen
                 )
                 if (showPlaylist.value) {
                     Playlist(modifier)
