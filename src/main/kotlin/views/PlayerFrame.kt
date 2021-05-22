@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import uk.co.caprica.vlcj.factory.discovery.NativeDiscovery
-import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent
 
 @Composable
 fun PlayerFrame(
