@@ -16,7 +16,7 @@ import views.Playlist
 fun main(args: Array<String>) = Window {
     println("printing args")
 
-    var videoFile = ""
+    var videoFile = "/home/lazaroofarrill/Videos/Big_Buck_Bunny_first_23_seconds_1080p.ogv"
     if (args.isNotEmpty()) {
         videoFile = args[0]
     }
