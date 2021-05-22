@@ -10,7 +10,6 @@ class KryerMediaPlayerComponent(
     private val playing: MutableState<Boolean>,
     private val setFullScreen: MutableState<Boolean>,
     private val parentWindow: AppWindow,
-    private val videoURl: MutableState<String>,
 ) : EmbeddedMediaPlayerComponent() {
 
     var lastX = 0
@@ -81,6 +80,14 @@ class KryerMediaPlayerComponent(
             32 -> playToggleAction()
             39 -> seekForwardAcion()
             37 -> seekBackWardAction()
+            38 -> {
+                val vol = mediaPlayer().audio().volume()
+                mediaPlayer().audio().setVolume(vol + 5)
+            }
+            40 -> {
+                val vol = mediaPlayer().audio().volume()
+                mediaPlayer().audio().setVolume(vol - 5)
+            }
         }
     }
 }
