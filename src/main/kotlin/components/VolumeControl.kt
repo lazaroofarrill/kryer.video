@@ -2,17 +2,20 @@ package components
 
 import KryerMediaPlayerComponent
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Solid
+import compose.icons.fontawesomeicons.solid.VolumeDown
+import compose.icons.fontawesomeicons.solid.VolumeUp
 import controls.MaxVolume
 import controls.volumeDown
 import controls.volumeUp
@@ -24,8 +27,14 @@ fun VolumeControl(
     volume: MutableState<Int>
 ) {
     Row(modifier) {
+        val iconModifier = modifier.size(20.dp)
         IconButton(onClick = { volumeDown(mediaPlayerComponent.value) }) {
-            Icon(Icons.Filled.KeyboardArrowDown, contentDescription = null)
+            Icon(
+                FontAwesomeIcons.Solid.VolumeDown,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = iconModifier
+            )
         }
         Slider(
             value = volume.value.toFloat(),
@@ -34,13 +43,18 @@ fun VolumeControl(
                 mediaPlayerComponent.value.mediaPlayer().audio().setVolume(it.toInt())
             },
             valueRange = 0f..MaxVolume.toFloat(),
-            modifier = modifier,
+            modifier = modifier.weight(1f),
             colors = SliderDefaults.colors(
                 thumbColor = Color.White, activeTrackColor = Color.White, inactiveTrackColor = Color.Gray
             )
         )
         IconButton(onClick = { volumeUp(mediaPlayerComponent.value) }) {
-            Icon(Icons.Filled.KeyboardArrowUp, contentDescription = null)
+            Icon(
+                FontAwesomeIcons.Solid.VolumeUp,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = iconModifier
+            )
         }
     }
 }

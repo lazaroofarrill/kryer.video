@@ -67,7 +67,7 @@ fun openFile(parentWindow: AppWindow, mediaPlayerComponent: KryerMediaPlayerComp
 
 fun Long.millisToTime(): String {
     val hours = this / 3_600_000
-    val minutes = this / 60_000
+    val minutes = this / 60_000 % 60
     val seconds = this % 60_000 / 1000
 
     var time = if (hours > 0) "${hours.toString().pad()}:" else ""
@@ -96,4 +96,8 @@ fun volumeUp(mediaPlayerComponent: KryerMediaPlayerComponent) {
 fun volumeDown(mediaPlayerComponent: KryerMediaPlayerComponent) {
     val vol = mediaPlayerComponent.mediaPlayer().audio().volume()
     mediaPlayerComponent.mediaPlayer().audio().setVolume(vol - 5)
+}
+
+fun toggleFullScreen(setFullScreen: MutableState<Boolean>) {
+    setFullScreen.value = !setFullScreen.value
 }

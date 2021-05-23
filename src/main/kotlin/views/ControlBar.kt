@@ -7,8 +7,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +19,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import components.VideoPosition
 import components.VolumeControl
+import compose.icons.TablerIcons
+import compose.icons.tablericons.*
 import java.awt.event.MouseEvent
 
 @ExperimentalFoundationApi
@@ -53,12 +53,15 @@ fun ControlBar(
             modifier = modifier.fillMaxWidth()
         ) {
             val controlButtons = mapOf<ImageVector, () -> Unit>(
-                Pair(Icons.Filled.KeyboardArrowLeft, seekBackWardAction),
-                Pair(if (!playing.value) Icons.Filled.PlayArrow else Icons.Filled.Close, playToggleAction),
-                Pair(Icons.Filled.Search, {
+                Pair(TablerIcons.PlayerSkipBack, seekBackWardAction),
+                Pair(
+                    if (!playing.value) TablerIcons.PlayerPlay else TablerIcons.PlayerPause,
+                    playToggleAction
+                ),
+                Pair(TablerIcons.PlayerStop, {
                     mediaPlayerComponent.value.mediaPlayer().controls().stop()
                 }),
-                Pair(Icons.Filled.KeyboardArrowRight, seekForwardAction)
+                Pair(TablerIcons.PlayerSkipForward, seekForwardAction)
             )
 
             OutlinedButton(
@@ -81,7 +84,8 @@ fun ControlBar(
                     Icon(button.key, contentDescription = null)
                 }
             }
-            VolumeControl(mediaPlayerComponent, modifier.weight(1f), volume)
+            Spacer(modifier.weight(1f))
+            VolumeControl(mediaPlayerComponent, modifier.width(200.dp), volume)
 
             OutlinedButton(
                 onClick = { showPlaylist.value = !showPlaylist.value },
@@ -92,7 +96,7 @@ fun ControlBar(
                 ),
             ) {
                 Image(
-                    Icons.Filled.List, contentDescription = null,
+                    TablerIcons.Playlist, contentDescription = null,
                     modifier = modifier.size(30.dp),
                     colorFilter = ColorFilter.tint(Color.White)
                 )

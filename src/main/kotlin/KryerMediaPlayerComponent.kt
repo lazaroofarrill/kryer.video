@@ -1,5 +1,6 @@
 import androidx.compose.desktop.AppWindow
 import androidx.compose.runtime.MutableState
+import controls.toggleFullScreen
 import uk.co.caprica.vlcj.player.base.MediaPlayer
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent
 import java.awt.event.KeyEvent
@@ -46,7 +47,7 @@ class KryerMediaPlayerComponent(
         super.mouseClicked(e)
         if (e?.clickCount == 2 && e.button == MouseEvent.BUTTON1) {
             println("toggling fullscreen")
-            setFullScreen.value = !setFullScreen.value
+            toggleFullScreen(setFullScreen)
         }
     }
 
@@ -85,6 +86,7 @@ class KryerMediaPlayerComponent(
             37 -> seekBackWardAction()
             38 -> volumeUpAction()
             40 -> volumeDownAction()
+            10 -> toggleFullScreen(setFullScreen)
         }
     }
 

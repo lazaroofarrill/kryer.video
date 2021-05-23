@@ -19,7 +19,9 @@ repositories {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(group = "uk.co.caprica", name = "vlcj", version = "4.7.1")
-
+    implementation("br.com.devsrsouza.compose.icons.jetbrains:font-awesome:0.2.0")
+    implementation("br.com.devsrsouza.compose.icons.jetbrains:eva-icons:0.2.0")
+    implementation("br.com.devsrsouza.compose.icons.jetbrains:tabler-icons:0.2.0")
 }
 
 tasks.withType<KotlinCompile>() {
