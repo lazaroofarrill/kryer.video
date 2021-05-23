@@ -64,12 +64,13 @@ fun AppLayout(args: Array<String>) {
                 )
             )
         }
-    mediaPlayerComponent.value.playToggleAction = { togglePlay(mediaPlayerComponent.value, playing, videoURl) }
+    mediaPlayerComponent.value.playToggleAction = { togglePlay(mediaPlayerComponent.value, playing) }
     mediaPlayerComponent.value.seekForwardAcion = { seekForward(mediaPlayerComponent.value, playing) }
     mediaPlayerComponent.value.seekBackWardAction = { seekBackward(mediaPlayerComponent.value, playing) }
     mediaPlayerComponent.value.volumeUpAction = { volumeUp(mediaPlayerComponent.value) }
     mediaPlayerComponent.value.volumeDownAction = { volumeDown(mediaPlayerComponent.value) }
     val readyToPlay = remember { mutableStateOf(false) }
+
 
     MaterialTheme {
         Column(
@@ -94,19 +95,6 @@ fun AppLayout(args: Array<String>) {
                     videoPosition,
                     volume = volume,
                     playing = playing,
-                    playToggleAction = {
-                        togglePlay(
-                            mediaPlayerComponent = mediaPlayerComponent.value,
-                            playing,
-                            videoURl
-                        )
-                    },
-                    seekForwardAction = {
-                        seekForward(mediaPlayerComponent = mediaPlayerComponent.value, playing)
-                    },
-                    seekBackWardAction = {
-                        seekBackward(mediaPlayerComponent = mediaPlayerComponent.value, playing)
-                    },
                     openFileAction = { openFile(currentWindow, mediaPlayerComponent = mediaPlayerComponent.value) }
                 )
             }

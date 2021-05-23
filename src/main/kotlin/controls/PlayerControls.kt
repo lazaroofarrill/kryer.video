@@ -23,15 +23,12 @@ suspend fun showControlBar(toggle: MutableState<Boolean>) {
 
 fun togglePlay(
     mediaPlayerComponent: KryerMediaPlayerComponent,
-    playing: MutableState<Boolean>,
-    videoUrl: MutableState<String>
+    playing: MutableState<Boolean>
 ) {
     if (playing.value) {
         mediaPlayerComponent.mediaPlayer().controls().pause()
     } else {
-        if (!mediaPlayerComponent.mediaPlayer().media().isValid) {
-            mediaPlayerComponent.mediaPlayer().media().play(videoUrl.value)
-        } else {
+        if (mediaPlayerComponent.mediaPlayer().media().isValid) {
             mediaPlayerComponent.mediaPlayer().controls().play()
         }
     }

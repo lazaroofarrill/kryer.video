@@ -18,7 +18,7 @@ import uk.co.caprica.vlcj.factory.discovery.NativeDiscovery
 fun PlayerFrame(
     modifier: Modifier,
     mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>, //this works just fine
-    readyToPlay: MutableState<Boolean>
+    readyToPlay: MutableState<Boolean>,
 ) {
     NativeDiscovery().discover()
     SideEffect {
