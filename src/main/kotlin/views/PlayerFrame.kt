@@ -17,10 +17,8 @@ import uk.co.caprica.vlcj.factory.discovery.NativeDiscovery
 @Composable
 fun PlayerFrame(
     modifier: Modifier,
-//    mediaPlayerComponent: EmbeddedMediaPlayerComponent, //passing a regular variable loses video on re-render
     mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>, //this works just fine
-    readyToPlay: MutableState<Boolean>,
-    setFullScreen: MutableState<Boolean>
+    readyToPlay: MutableState<Boolean>
 ) {
     NativeDiscovery().discover()
     SideEffect {

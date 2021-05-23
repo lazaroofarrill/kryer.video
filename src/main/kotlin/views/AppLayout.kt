@@ -13,9 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
-import controls.seekBackward
-import controls.seekForward
-import controls.togglePlay
+import controls.*
 import java.awt.Dimension
 
 @ExperimentalFoundationApi
@@ -49,6 +47,7 @@ fun AppLayout(args: Array<String>) {
     val videoURl =
         remember { mutableStateOf(videoFile) }
     val videoPosition = remember { mutableStateOf(0f) }
+    val volume = remember { mutableStateOf(100) }
 
     val playing = remember { mutableStateOf(false) }
 
@@ -60,13 +59,16 @@ fun AppLayout(args: Array<String>) {
                     videoPosition,
                     playing,
                     setFullScreen,
-                    currentWindow
+                    currentWindow,
+                    volume
                 )
             )
         }
     mediaPlayerComponent.value.playToggleAction = { togglePlay(mediaPlayerComponent.value, playing, videoURl) }
     mediaPlayerComponent.value.seekForwardAcion = { seekForward(mediaPlayerComponent.value, playing) }
     mediaPlayerComponent.value.seekBackWardAction = { seekBackward(mediaPlayerComponent.value, playing) }
+    mediaPlayerComponent.value.volumeUpAction = { volumeUp(mediaPlayerComponent.value) }
+    mediaPlayerComponent.value.volumeDownAction = { volumeDown(mediaPlayerComponent.value) }
     val readyToPlay = remember { mutableStateOf(false) }
 
     MaterialTheme {
@@ -78,7 +80,7 @@ fun AppLayout(args: Array<String>) {
                     modifier
                         .weight(1f)
                         .fillMaxHeight(),
-                    mediaPlayerComponent, readyToPlay, setFullScreen
+                    mediaPlayerComponent, readyToPlay
                 )
                 if (showPlaylist.value) {
                     Playlist(modifier)
@@ -89,8 +91,8 @@ fun AppLayout(args: Array<String>) {
                     modifier,
                     showPlaylist,
                     mediaPlayerComponent,
-                    url = videoURl,
                     videoPosition,
+                    volume = volume,
                     playing = playing,
                     playToggleAction = {
                         togglePlay(
@@ -104,7 +106,8 @@ fun AppLayout(args: Array<String>) {
                     },
                     seekBackWardAction = {
                         seekBackward(mediaPlayerComponent = mediaPlayerComponent.value, playing)
-                    }
+                    },
+                    openFileAction = { openFile(currentWindow, mediaPlayerComponent = mediaPlayerComponent.value) }
                 )
             }
         }

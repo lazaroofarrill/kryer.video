@@ -3,7 +3,10 @@ package views
 import KryerMediaPlayerComponent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
@@ -16,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import components.VideoPosition
+import components.VolumeControl
 import java.awt.event.MouseEvent
 
 @ExperimentalFoundationApi
@@ -24,96 +29,75 @@ fun ControlBar(
     modifier: Modifier,
     showPlaylist: MutableState<Boolean>,
     mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>,
-    url: MutableState<String>,
     videoPosition: MutableState<Float>,
     playing: MutableState<Boolean>,
     playToggleAction: () -> Unit = {},
     seekForwardAction: () -> Unit,
     seekBackWardAction: () -> Unit,
+    openFileAction: () -> Unit,
+    volume: MutableState<Int>
 ) {
     var lastEvent = remember { mutableStateOf<MouseEvent?>(null) }
 
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(5.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth()
+    Column(
+        modifier.fillMaxWidth()
             .background(color = Color.DarkGray)
             .border(BorderStroke(1.dp, Color.Transparent))
+            .padding(horizontal = 10.dp)
     ) {
-        val controlButtons = mapOf<ImageVector, () -> Unit>(
-            Pair(Icons.Filled.KeyboardArrowLeft, seekBackWardAction),
-            Pair(if (!playing.value) Icons.Filled.PlayArrow else Icons.Filled.Close, playToggleAction),
-            Pair(Icons.Filled.Search, {
-                mediaPlayerComponent.value.mediaPlayer().controls().stop()
-            }),
-            Pair(Icons.Filled.KeyboardArrowRight, seekForwardAction)
-        )
+        VideoPosition(modifier = modifier, mediaPlayerComponent = mediaPlayerComponent, videoPosition = videoPosition)
 
-        for (button in controlButtons) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            val controlButtons = mapOf<ImageVector, () -> Unit>(
+                Pair(Icons.Filled.KeyboardArrowLeft, seekBackWardAction),
+                Pair(if (!playing.value) Icons.Filled.PlayArrow else Icons.Filled.Close, playToggleAction),
+                Pair(Icons.Filled.Search, {
+                    mediaPlayerComponent.value.mediaPlayer().controls().stop()
+                }),
+                Pair(Icons.Filled.KeyboardArrowRight, seekForwardAction)
+            )
+
             OutlinedButton(
-                modifier = modifier,
-                onClick = button.value,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Transparent, contentColor = Color.White
+                ), onClick = openFileAction
+            ) {
+                Text("File")
+            }
+
+            for (button in controlButtons) {
+                OutlinedButton(
+                    modifier = modifier,
+                    onClick = button.value,
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Transparent,
+                        contentColor = Color.White
+                    ),
+                ) {
+                    Icon(button.key, contentDescription = null)
+                }
+            }
+            VolumeControl(mediaPlayerComponent, modifier.weight(1f), volume)
+
+            OutlinedButton(
+                onClick = { showPlaylist.value = !showPlaylist.value },
+                modifier = modifier.background(Color.Transparent),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent,
                     contentColor = Color.White
                 ),
             ) {
-                Icon(button.key, contentDescription = null)
+                Image(
+                    Icons.Filled.List, contentDescription = null,
+                    modifier = modifier.size(30.dp),
+                    colorFilter = ColorFilter.tint(Color.White)
+                )
             }
         }
-        Spacer(modifier.padding(8.dp))
-
-        Slider(
-            value = videoPosition.value,
-            onValueChange = {
-                videoPosition.value = it
-                mediaPlayerComponent.value.mediaPlayer().controls().setPosition(it)
-            },
-            colors = SliderDefaults.colors(
-                thumbColor = Color.White, activeTrackColor = Color.White, inactiveTrackColor = Color.Gray
-            ),
-            modifier = modifier.weight(1f),
-            enabled = mediaPlayerComponent.value.mediaPlayer().media().isValid
-        )
-        Text(
-            "${mediaPlayerComponent.value.mediaPlayer().status().time().millisToTime()}/${
-                mediaPlayerComponent.value.mediaPlayer().status().length().millisToTime()
-            }", color = Color.White, modifier = modifier.combinedClickable(onClick = {}, onDoubleClick = {
-                println("double clicked")
-            })
-        )
-        OutlinedButton(
-            onClick = { showPlaylist.value = !showPlaylist.value },
-            modifier = modifier.background(Color.Transparent),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Transparent,
-                contentColor = Color.White
-            ),
-        ) {
-            Image(
-                Icons.Filled.List, contentDescription = null,
-                modifier = modifier.size(30.dp),
-                colorFilter = ColorFilter.tint(Color.White)
-            )
-        }
     }
 }
 
-fun Long.millisToTime(): String {
-    val hours = this / 3_600_000
-    val minutes = this / 60_000
-    val seconds = this % 60_000 / 1000
-
-    var time = if (hours > 0) "${hours.toString().pad()}:" else ""
-    time += "${minutes.toString().pad()}:"
-    time += seconds.toString().pad()
-    return time
-}
-
-fun String.pad(char: Char = '0', digits: Int = 2): String {
-    var padding = this
-    while (padding.length < digits) {
-        padding = char + padding
-    }
-    return padding
-}
