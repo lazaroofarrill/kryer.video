@@ -64,6 +64,7 @@ fun AppLayout(args: Array<String>) {
                 )
             )
         }
+
     mediaPlayerComponent.value.playToggleAction = { togglePlay(mediaPlayerComponent.value, playing) }
     mediaPlayerComponent.value.seekForwardAcion = { seekForward(mediaPlayerComponent.value, playing) }
     mediaPlayerComponent.value.seekBackWardAction = { seekBackward(mediaPlayerComponent.value, playing) }
@@ -71,6 +72,11 @@ fun AppLayout(args: Array<String>) {
     mediaPlayerComponent.value.volumeDownAction = { volumeDown(mediaPlayerComponent.value) }
     val readyToPlay = remember { mutableStateOf(false) }
 
+    if (readyToPlay.value) {
+        if (!mediaPlayerComponent.value.mediaPlayer().media().isValid) {
+            mediaPlayerComponent.value.mediaPlayer().media().prepare(videoURl.value)
+        }
+    }
 
     MaterialTheme {
         Column(
