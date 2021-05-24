@@ -1,13 +1,11 @@
 package components
 
 import KryerMediaPlayerComponent
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedButton
+import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import compose.icons.TablerIcons
 import compose.icons.tablericons.*
@@ -17,9 +15,9 @@ import controls.togglePlay
 
 @Composable
 fun ControlButtons(
-    modifier: Modifier,
     playing: MutableState<Boolean>,
-    mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>
+    mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>,
+    modifier: Modifier = Modifier
 ) {
     val controlButtons = mapOf<ImageVector, () -> Unit>(
         Pair(TablerIcons.PlayerSkipBack, { seekBackward(mediaPlayerComponent.value, playing) }),
@@ -36,13 +34,9 @@ fun ControlButtons(
 
 
     for (button in controlButtons) {
-        OutlinedButton(
+        IconButton(
             modifier = modifier,
-            onClick = button.value,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Transparent,
-                contentColor = Color.White
-            ),
+            onClick = button.value
         ) {
             Icon(button.key, contentDescription = null)
         }

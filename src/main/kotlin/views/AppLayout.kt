@@ -13,7 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
+import components.ToolBar
 import controls.*
+import themes.LightThemeColors
 import java.awt.Dimension
 
 @ExperimentalFoundationApi
@@ -78,10 +80,12 @@ fun AppLayout(args: Array<String>) {
         }
     }
 
-    MaterialTheme {
+    MaterialTheme(colors = LightThemeColors) {
         Column(
             modifier = modifier.fillMaxSize()
         ) {
+            ToolBar(mediaPlayerComponent)
+
             Row(modifier.weight(1f).fillMaxWidth().background(Color.Green)) {
                 PlayerFrame(
                     modifier
@@ -100,8 +104,7 @@ fun AppLayout(args: Array<String>) {
                     mediaPlayerComponent,
                     videoPosition,
                     volume = volume,
-                    playing = playing,
-                    openFileAction = { openFile(currentWindow, mediaPlayerComponent = mediaPlayerComponent.value) }
+                    playing = playing
                 )
             }
         }
