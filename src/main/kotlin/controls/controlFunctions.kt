@@ -55,6 +55,7 @@ fun openFile(parentWindow: AppWindow, mediaPlayerComponent: KryerMediaPlayerComp
     if (files.isNotEmpty()) {
         val mediaReady = mediaPlayerComponent.mediaPlayer().media().prepare(files[0].absolutePath)
         if (mediaReady) {
+            parentWindow.setTitle(files[0].name)
             mediaPlayerComponent.mediaPlayer().controls().play()
         } else {
             println("invalid file")

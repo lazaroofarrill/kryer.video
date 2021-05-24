@@ -28,7 +28,8 @@ fun ToolBar(mediaPlayerComponent: MutableState<KryerMediaPlayerComponent>, modif
         }) {
             Text("File")
         }
-        Spacer(modifier = modifier.weight(1f))
+        Spacer(modifier.weight(1f))
+        Spacer(modifier.weight(1f))
         IconButton(onClick = {}) {
             Icon(TablerIcons.Settings, contentDescription = "Settings")
         }

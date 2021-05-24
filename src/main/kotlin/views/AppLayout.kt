@@ -26,10 +26,10 @@ fun AppLayout(args: Array<String>) {
     val showControlBar = remember { mutableStateOf(true) }
     if (setFullScreen.value) {
         currentWindow.makeFullscreen()
-        showControlBar.value = false
+//        showControlBar.value = false
     } else {
         currentWindow.restore()
-        showControlBar.value = true
+//        showControlBar.value = true
     }
 
     currentWindow.keyboard.setShortcut(Key.Spacebar) {

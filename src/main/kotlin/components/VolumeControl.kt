@@ -3,10 +3,7 @@ package components
 import KryerMediaPlayerComponent
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Slider
-import androidx.compose.material.SliderDefaults
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -45,8 +42,10 @@ fun VolumeControl(
             valueRange = 0f..MaxVolume.toFloat(),
             modifier = modifier.weight(1f),
             colors = SliderDefaults.colors(
-                thumbColor = Color.White, activeTrackColor = Color.White, inactiveTrackColor = Color.Gray
-            )
+                thumbColor = MaterialTheme.colors.secondary,
+                activeTrackColor = MaterialTheme.colors.secondary,
+                inactiveTrackColor = Color.Gray
+            ),
         )
         IconButton(onClick = { volumeUp(mediaPlayerComponent.value) }) {
             Icon(

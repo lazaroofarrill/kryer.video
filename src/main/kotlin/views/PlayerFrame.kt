@@ -24,7 +24,6 @@ fun PlayerFrame(
     SideEffect {
         readyToPlay.value = true
     }
-
     SwingPanel(
         background = Color.Green,
         modifier = modifier

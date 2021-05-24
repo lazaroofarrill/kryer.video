@@ -4,6 +4,7 @@ import KryerMediaPlayerComponent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
 import androidx.compose.material.Text
@@ -29,7 +30,9 @@ fun VideoPosition(
                 mediaPlayerComponent.value.mediaPlayer().controls().setPosition(it)
             },
             colors = SliderDefaults.colors(
-                thumbColor = Color.White, activeTrackColor = Color.White, inactiveTrackColor = Color.Gray
+                thumbColor = MaterialTheme.colors.secondary,
+                activeTrackColor = MaterialTheme.colors.secondary,
+                inactiveTrackColor = Color.Gray
             ),
             modifier = modifier.weight(1f),
             enabled = mediaPlayerComponent.value.mediaPlayer().media().isValid
